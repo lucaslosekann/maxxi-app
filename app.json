@@ -13,7 +13,11 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.maxxi.app",
+      "config": {
+        "googleMapsApiKey": "AIzaSyC-0z9QIDqQlm_ooi3BGmfjSso74xrlBig"
+      }
     },
     "android": {
       "adaptiveIcon": {

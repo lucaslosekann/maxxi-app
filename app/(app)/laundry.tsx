@@ -12,7 +12,7 @@ import { getLaundry, getMachines } from "../../src/services/api";
 import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment-timezone";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { FontAwesome, Feather } from "@expo/vector-icons";
 import { useStorageState } from "../../src/hooks/useStorageState";
 import { openURL } from "expo-linking";
@@ -330,7 +330,7 @@ export default function Laundry() {
 							backgroundColor: "#ddd",
 							alignSelf: "stretch",
 						}}
-						provider="google"
+						provider={PROVIDER_GOOGLE}
 					>
 						<Marker
 							coordinate={{
