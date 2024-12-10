@@ -34,7 +34,8 @@
         {
           "locationAlwaysAndWhenInUsePermission": "Permita $(PRODUCT_NAME) usar sua localização."
         }
-      ]
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true
