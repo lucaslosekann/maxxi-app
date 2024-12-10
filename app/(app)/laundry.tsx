@@ -166,8 +166,14 @@ export default function Laundry() {
 									paddingBottom: 20,
 								}}
 							>
-								{MachinesQuery?.data?.machines?.map(
-									(machine: any) => {
+								{MachinesQuery?.data?.machines
+									?.sort((a: any, b: any) => {
+										//a.nome
+										if (a.nome < b.nome) return -1;
+										if (a.nome > b.nome) return 1;
+										return 0;
+									})
+									.map((machine: any) => {
 										return (
 											<View
 												key={machine.id}
@@ -198,6 +204,7 @@ export default function Laundry() {
 											>
 												<Text className="font-ms600 tracking-wide">
 													{machine.nome
+														.toUpperCase()
 														.replace(
 															"SEC",
 															"SECADORA "
@@ -254,8 +261,7 @@ export default function Laundry() {
 												</Text>
 											</View>
 										);
-									}
-								)}
+									})}
 								<Text
 									style={{
 										position: "absolute",
@@ -324,6 +330,7 @@ export default function Laundry() {
 							backgroundColor: "#ddd",
 							alignSelf: "stretch",
 						}}
+						provider="google"
 					>
 						<Marker
 							coordinate={{
@@ -488,85 +495,6 @@ export default function Laundry() {
 						</TouchableOpacity>
 					</View>
 				</ImageBackground>
-
-				{/* 
-                
-                
-
-                <View style={{
-                    width: '100%',
-                    flex: 1,
-                    marginVertical: 10
-                }}>
-                    <Text style={{
-                        width: '100%',
-                        textAlign: 'left',
-                        fontSize: 20,
-                        fontWeight: 'bold',
-                    }}>Como chegar</Text>
-                    <Text>Estamos localizados no endereço: {`\n`}{openedLaundry?.endereco.logradouro} {openedLaundry?.endereco.numero}, {openedLaundry?.endereco.complemento}, {openedLaundry?.endereco.bairro} - {openedLaundry?.endereco.nomeCidade} - {openedLaundry?.endereco.estado}</Text>
-                    <MapView
-                        region={{
-                            latitude: openedLaundry?.endereco.latitude,
-                            longitude: openedLaundry?.endereco.longitude,
-                            latitudeDelta: 0.01,
-                            longitudeDelta: 0.01,
-                        }}
-
-                        style={{
-                            width: '100%',
-                            height: 200,
-                            marginVertical: 10
-                        }}
-                    >
-                        <Marker
-                            coordinate={{
-                                latitude: openedLaundry?.endereco.latitude,
-                                longitude: openedLaundry?.endereco.longitude
-                            }}
-                            title={openedLaundry?.nome}
-                        >
-                        </Marker>
-                    </MapView>
-                </View>
-
-
-                <View style={{
-                    width: '100%',
-                    flex: 1,
-                    marginVertical: 10
-                }}>
-                    <Text style={{
-                        width: '100%',
-                        textAlign: 'left',
-                        fontSize: 20,
-                        fontWeight: 'bold'
-                    }}>Horário de funcionamento</Text>
-                    <Text>Funcionamos todos os dias das {moment.tz(openedLaundry?.periodoFuncionamento.dataInicio, "UTC").tz("America/Sao_Paulo").format("HH:mm")} até as {moment.tz(openedLaundry?.periodoFuncionamento.dataTermino, "UTC").tz("America/Sao_Paulo").format("HH:mm")}</Text>
-                </View>
-
-
-                <View style={{
-                    width: '100%',
-                    flex: 1,
-                    marginVertical: 10
-                }}>
-                    <Text style={{
-                        width: '100%',
-                        textAlign: 'left',
-                        fontSize: 20,
-                        fontWeight: 'bold'
-                    }}>Converse conosco</Text>
-                    <View style={{
-                        flex: 1,
-                        flexDirection: 'row',
-                        gap: 20,
-                        paddingVertical: 5
-                    }}>
-                        <FontAwesome name='instagram' size={50} />
-                        <FontAwesome name='whatsapp' size={50} />
-                    </View>
-                </View> */}
 			</ScrollView>
 		</View>
 	);
