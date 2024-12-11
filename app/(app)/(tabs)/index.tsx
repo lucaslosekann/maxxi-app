@@ -89,6 +89,7 @@ export default function Closest() {
 			resizeMode="cover"
 			style={{
 				flex: 1,
+				backgroundColor: "#093a3f",
 			}}
 		>
 			<SafeAreaView style={styles.container}>

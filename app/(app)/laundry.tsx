@@ -129,14 +129,12 @@ export default function Laundry() {
 							paddingVertical: 10,
 						}}
 					>
-						<Text
+						<View
 							style={{
-								textAlign: "left",
-								verticalAlign: "middle",
-								fontSize: 16,
 								paddingTop: 10,
+								alignItems: "center",
+								flexDirection: "row",
 							}}
-							className="font-ms700 text-[#093a3f] uppercase"
 						>
 							<Image
 								source={require("../../src/assets/images/maquina_azul.png")}
@@ -144,9 +142,17 @@ export default function Laundry() {
 									width: 20,
 									height: 20,
 								}}
-							/>{" "}
-							Máquinas
-						</Text>
+							/>
+							<Text
+								style={{
+									fontSize: 16,
+								}}
+								className="font-ms700 text-[#093a3f] uppercase"
+							>
+								{" "}
+								Máquinas
+							</Text>
+						</View>
 						{MachinesQuery?.isLoading && (
 							<Text className="font-ms500">Carregando...</Text>
 						)}
@@ -289,14 +295,12 @@ export default function Laundry() {
 							paddingVertical: 10,
 						}}
 					>
-						<Text
+						<View
 							style={{
-								textAlign: "left",
-								verticalAlign: "middle",
-								fontSize: 16,
 								paddingTop: 10,
+								alignItems: "center",
+								flexDirection: "row",
 							}}
-							className="font-ms700 text-[#093a3f] uppercase"
 						>
 							<Image
 								source={require("../../src/assets/images/mapa_azul_escuro.png")}
@@ -304,9 +308,18 @@ export default function Laundry() {
 									width: 25,
 									height: 25,
 								}}
-							/>{" "}
-							Como Chegar
-						</Text>
+							/>
+							<Text
+								style={{
+									fontSize: 16,
+								}}
+								className="font-ms700 text-[#093a3f] uppercase"
+							>
+								{" "}
+								Como Chegar
+							</Text>
+						</View>
+
 						<Text className="text-sm font-ms400">
 							{openedLaundry?.endereco.logradouro}{" "}
 							{openedLaundry?.endereco.numero},{" "}
