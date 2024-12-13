@@ -13,6 +13,29 @@ import { useQuery } from "@tanstack/react-query";
 import { getLaundries, getRoute } from "../../../src/services/api";
 import { router } from "expo-router";
 
+function calcCrow(lat1: number, lon1: number, lat2: number, lon2: number) {
+	var R = 6371; // km
+	var dLat = toRad(lat2 - lat1);
+	var dLon = toRad(lon2 - lon1);
+	var lat1 = toRad(lat1);
+	var lat2 = toRad(lat2);
+
+	var a =
+		Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+		Math.sin(dLon / 2) *
+			Math.sin(dLon / 2) *
+			Math.cos(lat1) *
+			Math.cos(lat2);
+	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+	var d = R * c;
+	return d;
+}
+
+// Converts numeric degrees to radians
+function toRad(Value: number) {
+	return (Value * Math.PI) / 180;
+}
+
 export default function Closest() {
 	const [location, setLocation] = useState<null | Location.LocationObject>(
 		null
@@ -55,15 +78,21 @@ export default function Closest() {
 				) {
 					await Promise.all(
 						laundries.map(async (laundry: any) => {
-							const distance = await getRoute({
-								latitude1: location.coords.latitude.toString(),
-								longitude1:
-									location.coords.longitude.toString(),
-								latitude2: laundry.endereco.latitude,
-								longitude2: laundry.endereco.longitude,
-							}).then((response) => {
-								return response.data.routes[0].distance / 1000;
-							});
+							// const distance = await getRoute({
+							// 	latitude1: location.coords.latitude.toString(),
+							// 	longitude1:
+							// 		location.coords.longitude.toString(),
+							// 	latitude2: laundry.endereco.latitude,
+							// 	longitude2: laundry.endereco.longitude,
+							// }).then((response) => {
+							// 	return response.data.routes[0].distance / 1000;
+							// });
+							const distance = calcCrow(
+								location.coords.latitude,
+								location.coords.longitude,
+								laundry.endereco.latitude,
+								laundry.endereco.longitude
+							);
 							setLaundriesData((prev: any) =>
 								prev.map((prevLaundry: any) => {
 									if (prevLaundry.id === laundry.id) {
@@ -78,7 +107,7 @@ export default function Closest() {
 						})
 					);
 				}
-				// calculateDistance(location);
+				calculateDistance(location);
 			}
 		}
 	}, [LaundriesQuery.data, location]);
