@@ -78,7 +78,7 @@ export default function Closest() {
 						})
 					);
 				}
-				calculateDistance(location);
+				// calculateDistance(location);
 			}
 		}
 	}, [LaundriesQuery.data, location]);
