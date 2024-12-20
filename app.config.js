@@ -2,7 +2,7 @@ module.exports = {
 	expo: {
 		name: "Maxxi Lavanderia Express",
 		slug: "maxxi-lavanderia-express",
-		version: "1.0.0",
+		version: "1.0.1",
 		orientation: "portrait",
 		icon: "./src/assets/images/icon.png",
 		scheme: "myapp",
@@ -21,7 +21,7 @@ module.exports = {
 		},
 		android: {
 			package: "com.maxxilavanderia.app",
-			versionCode: 1,
+			versionCode: 4,
 			adaptiveIcon: {
 				foregroundImage: "./src/assets/images/adaptive-icon.png",
 				backgroundColor: "#ffffff",
@@ -63,6 +63,12 @@ module.exports = {
 			eas: {
 				projectId: "937c4877-79b6-4d3a-8d8e-09094dfae661",
 			},
+		},
+		updates: {
+			url: "https://u.expo.dev/937c4877-79b6-4d3a-8d8e-09094dfae661",
+		},
+		runtimeVersion: {
+			policy: "appVersion",
 		},
 	},
 };
