@@ -4,6 +4,7 @@ import {
 	ImageBackground,
 	Image,
 	TouchableOpacity,
+	RefreshControl,
 } from "react-native";
 import { Text } from "../../src/components/Text";
 import React, { useEffect } from "react";
@@ -67,6 +68,16 @@ export default function Laundry() {
 				contentContainerStyle={{
 					minHeight: "100%",
 				}}
+				// reload on swipe down
+				refreshControl={
+					<RefreshControl
+						refreshing={MachinesQuery.isFetching}
+						onRefresh={() => {
+							// OpenedLaundryQuery.refetch();
+							MachinesQuery.refetch();
+						}}
+					/>
+				}
 			>
 				<ImageBackground
 					source={require("../../src/assets/images/bg_img.png")}
@@ -162,128 +173,175 @@ export default function Laundry() {
 							</Text>
 						)}
 						{MachinesQuery?.data && (
-							<View
-								style={{
-									flex: 1,
-									flexWrap: "wrap",
-									flexDirection: "row",
-									justifyContent: "space-between",
-									position: "relative",
-									paddingBottom: 20,
-								}}
-							>
-								{MachinesQuery?.data?.machines
-									?.sort((a: any, b: any) => {
-										//a.nome
-										if (a.nome < b.nome) return -1;
-										if (a.nome > b.nome) return 1;
-										return 0;
-									})
-									.map((machine: any) => {
-										return (
-											<View
-												key={machine.id}
-												style={{
-													width: "47%",
-													justifyContent: "center",
-													alignItems: "center",
-													paddingHorizontal: 5,
-													paddingVertical: 15,
-													marginVertical: 10,
-													borderWidth: 3,
-													borderColor:
-														machine
-															.estadoMaquinaAtual
-															.situacao ===
-														"Operacional"
-															? "#008000"
-															: "#bc1823",
-													backgroundColor:
-														machine
-															.estadoMaquinaAtual
-															.situacao ===
-														"Operacional"
-															? "#e3eee3"
-															: "#f7ecec",
-													borderRadius: 18,
-												}}
-											>
-												<Text className="font-ms600 tracking-wide">
-													{machine.nome
-														.toUpperCase()
-														.replace(
-															"SEC",
-															"SECADORA "
-														)
-														.replace(
-															"LAV",
-															"LAVADORA "
-														)}
-												</Text>
-												<Text className="font-ms500 text-sm mb-6">
-													{machine.estadoMaquinaAtual
-														.situacao ===
-													"Operacional"
-														? "Disponível"
-														: "Ocupada"}
-												</Text>
-												<Text
-													style={{
-														textAlign: "center",
-														fontSize: 10,
-													}}
-													className="font-ms700"
-												>
-													Previsão de término:
-												</Text>
-												<Text
-													style={{
-														textAlign: "center",
-														fontSize: 10,
-													}}
-													className="font-ms700 mb-6"
-												>
-													{machine.estadoMaquinaAtual
-														.situacao === "Ocupado"
-														? moment
-																.tz(
-																	machine
-																		.estadoMaquinaAtual
-																		.periodo
-																		.dataInicio,
-																	"UTC"
-																)
-																.tz(
-																	"America/Sao_Paulo"
-																)
-																.add(
-																	machine
-																		.servico
-																		.tempoEstimadoMinutos,
-																	"minutes"
-																)
-																.format("HH:mm")
-														: "-"}
-												</Text>
-											</View>
-										);
-									})}
-								<Text
+							<View>
+								<View
 									style={{
-										position: "absolute",
-										bottom: 0,
-										left: 0,
+										flexWrap: "wrap",
+										flexDirection: "row",
+										justifyContent: "space-between",
+										position: "relative",
+										paddingBottom: 20,
 									}}
-									className="font-ms400 text-sm"
 								>
-									Última atualização:{" "}
-									{new Date(
-										MachinesQuery.data.lastUpdate
-									).toLocaleTimeString([], {
-										hour: "2-digit",
-										minute: "2-digit",
-									})}
-								</Text>
+									{MachinesQuery?.data?.machines
+										?.sort((a: any, b: any) => {
+											//a.nome
+											if (a.nome < b.nome) return -1;
+											if (a.nome > b.nome) return 1;
+											return 0;
+										})
+										.map((machine: any) => {
+											const estimatedTimePast = moment
+												.tz("America/Sao_Paulo")
+												.isAfter(
+													moment
+														.tz(
+															machine
+																.estadoMaquinaAtual
+																.periodo
+																.dataInicio,
+															"UTC"
+														)
+														.tz("America/Sao_Paulo")
+														.add(
+															machine.servico
+																.tempoEstimadoMinutos,
+															"minutes"
+														)
+														.add(5, "minutes")
+												);
+											return (
+												<View
+													key={machine.id}
+													style={{
+														width: "47%",
+														justifyContent:
+															"center",
+														alignItems: "center",
+														paddingHorizontal: 5,
+														paddingVertical: 15,
+														marginVertical: 10,
+														borderWidth: 3,
+														borderColor:
+															machine
+																.estadoMaquinaAtual
+																.situacao ===
+															"Operacional"
+																? "#008000"
+																: estimatedTimePast
+																? "#fcc844"
+																: "#bc1823",
+														backgroundColor:
+															machine
+																.estadoMaquinaAtual
+																.situacao ===
+															"Operacional"
+																? "#e3eee3"
+																: estimatedTimePast
+																? "#faeaa5"
+																: "#f7ecec",
+														borderRadius: 18,
+													}}
+												>
+													<Text className="font-ms600 tracking-wide">
+														{machine.nome
+															.toUpperCase()
+															.replace(
+																"SEC",
+																"SECADORA "
+															)
+															.replace(
+																"LAV",
+																"LAVADORA "
+															)}
+													</Text>
+													<Text className="font-ms500 text-sm mb-6">
+														{machine
+															.estadoMaquinaAtual
+															.situacao ===
+														"Operacional"
+															? "Disponível"
+															: estimatedTimePast
+															? "Ciclo Finalizado"
+															: "Ocupado"}
+													</Text>
+													<Text
+														style={{
+															textAlign: "center",
+															fontSize: 10,
+														}}
+														className="font-ms700"
+													>
+														Previsão de término:
+													</Text>
+													<Text
+														style={{
+															textAlign: "center",
+															fontSize: 10,
+														}}
+														className="font-ms700 mb-6"
+													>
+														{machine
+															.estadoMaquinaAtual
+															.situacao ===
+														"Ocupado"
+															? moment
+																	.tz(
+																		machine
+																			.estadoMaquinaAtual
+																			.periodo
+																			.dataInicio,
+																		"UTC"
+																	)
+																	.tz(
+																		"America/Sao_Paulo"
+																	)
+																	.add(
+																		machine
+																			.servico
+																			.tempoEstimadoMinutos,
+																		"minutes"
+																	)
+																	.format(
+																		"HH:mm"
+																	)
+															: "-"}
+													</Text>
+												</View>
+											);
+										})}
+								</View>
+								<View>
+									<Text className="font-ms400 text-sm">
+										Última atualização:{" "}
+										{new Date(
+											MachinesQuery.data.lastUpdate
+										).toLocaleTimeString([], {
+											hour: "2-digit",
+											minute: "2-digit",
+										})}
+									</Text>
+								</View>
+								<View className="flex-row items-center gap-3">
+									<View className="w-2 h-2 rounded-full bg-[#fcc844]"></View>
+									<Text className="font-ms400 text-sm">
+										Ciclo finalizado: aguardando retirada
+										das roupas
+									</Text>
+								</View>
+								<View className="flex-row items-center gap-3">
+									<View className="w-2 h-2 rounded-full bg-[#008000]"></View>
+
+									<Text className="font-ms400 text-sm">
+										Disponível: máquina pronta para uso
+									</Text>
+								</View>
+								<View className="flex-row items-center gap-3">
+									<View className="w-2 h-2 rounded-full bg-[#bc1823]"></View>
+									<Text className="font-ms400 text-sm">
+										Ocupado: máquina em uso
+									</Text>
+								</View>
 							</View>
 						)}
 					</View>
