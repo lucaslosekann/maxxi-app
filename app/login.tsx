@@ -10,7 +10,7 @@ import {
 	View,
 } from "react-native";
 import { Text } from "../src/components/Text";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "../src/contexts/AuthContext";
 import { Input } from "../src/components/Input";
 import { Button } from "../src/components/Button";
@@ -33,6 +33,29 @@ export default function Login() {
 	const { signIn } = useAuth();
 
 	const [cpf, setCpf] = React.useState("");
+
+	const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+	useEffect(() => {
+		const keyboardDidShowListener = Keyboard.addListener(
+			"keyboardDidShow",
+			() => {
+				setKeyboardVisible(true); // or some other action
+			}
+		);
+		const keyboardDidHideListener = Keyboard.addListener(
+			"keyboardDidHide",
+			() => {
+				setKeyboardVisible(false); // or some other action
+			}
+		);
+
+		return () => {
+			keyboardDidHideListener.remove();
+			keyboardDidShowListener.remove();
+		};
+	}, []);
+
 	return (
 		<ImageBackground
 			source={require("../src/assets/images/bg_img.png")}
@@ -112,27 +135,33 @@ export default function Login() {
 								labelClasses="font-ms600 text-xl"
 							/>
 						</View>
-						<View
-							style={{
-								display: "flex",
-								flexDirection: "row",
-								flex: 1,
-								flexWrap: "wrap",
-								margin: 10,
-							}}
-							className="absolute bottom-5 w-full justify-center"
-						>
-							<Text>Feito com {"<3"} por </Text>
-							<TouchableOpacity
-								onPress={() =>
-									openURL("https://lucaslosekann.dev")
-								}
+						{!isKeyboardVisible && (
+							<View
+								style={{
+									display: "flex",
+									flexDirection: "row",
+									flex: 1,
+									flexWrap: "wrap",
+								}}
+								className="absolute bottom-2 w-full justify-center"
 							>
-								<Text style={{ color: "blue" }}>
-									lucaslosekann.dev
+								<Text className="text-xs">
+									Feito com {"<3"} por{" "}
 								</Text>
-							</TouchableOpacity>
-						</View>
+								<TouchableOpacity
+									onPress={() =>
+										openURL("https://lucaslosekann.dev")
+									}
+								>
+									<Text
+										style={{ color: "blue" }}
+										className="text-xs"
+									>
+										lucaslosekann.dev
+									</Text>
+								</TouchableOpacity>
+							</View>
+						)}
 					</View>
 				</TouchableWithoutFeedback>
 			</KeyboardAvoidingView>

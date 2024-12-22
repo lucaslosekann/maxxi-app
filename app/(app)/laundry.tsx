@@ -8,22 +8,51 @@ import {
 } from "react-native";
 import { Text } from "../../src/components/Text";
 import React, { useEffect } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { getLaundry, getMachines } from "../../src/services/api";
-import { router, useLocalSearchParams, useNavigation } from "expo-router";
+import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment-timezone";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { FontAwesome, Feather } from "@expo/vector-icons";
 import { useStorageState } from "../../src/hooks/useStorageState";
 import { openURL } from "expo-linking";
+
 const HORIZONTAL_PADDING = 35;
 const PHONE_NUMBER = "(48) 99863-9487";
+
+function getMachineSituation(situacao: string, estimatedTimePast: boolean) {
+	if (situacao === "Operacional") {
+		return {
+			backgroundColor: "#e3eee3",
+			borderColor: "#008000",
+			text: "Disponível",
+		};
+	}
+	if (situacao === "Offline") {
+		return {
+			backgroundColor: "#f7ecec",
+			borderColor: "#bc1823",
+			text: "Indisponível",
+		};
+	}
+	if (estimatedTimePast) {
+		return {
+			backgroundColor: "#faeaa5",
+			borderColor: "#fcc844",
+			text: "Ciclo Finalizado",
+		};
+	}
+	return {
+		backgroundColor: "#f7ecec",
+		borderColor: "#bc1823",
+		text: "Ocupado",
+	};
+}
+
 export default function Laundry() {
 	const params = useLocalSearchParams();
 	const id = typeof params.id === "string" ? params.id : params.id[0];
 
-	const navigation = useNavigation();
 	const [_, setLastSeen] = useStorageState("last_seen_laundry");
 
 	const OpenedLaundryQuery = useQuery({
@@ -223,23 +252,19 @@ export default function Laundry() {
 														marginVertical: 10,
 														borderWidth: 3,
 														borderColor:
-															machine
-																.estadoMaquinaAtual
-																.situacao ===
-															"Operacional"
-																? "#008000"
-																: estimatedTimePast
-																? "#fcc844"
-																: "#bc1823",
+															getMachineSituation(
+																machine
+																	.estadoMaquinaAtual
+																	.situacao,
+																estimatedTimePast
+															).borderColor,
 														backgroundColor:
-															machine
-																.estadoMaquinaAtual
-																.situacao ===
-															"Operacional"
-																? "#e3eee3"
-																: estimatedTimePast
-																? "#faeaa5"
-																: "#f7ecec",
+															getMachineSituation(
+																machine
+																	.estadoMaquinaAtual
+																	.situacao,
+																estimatedTimePast
+															).backgroundColor,
 														borderRadius: 18,
 													}}
 												>
@@ -256,14 +281,14 @@ export default function Laundry() {
 															)}
 													</Text>
 													<Text className="font-ms500 text-sm mb-6">
-														{machine
-															.estadoMaquinaAtual
-															.situacao ===
-														"Operacional"
-															? "Disponível"
-															: estimatedTimePast
-															? "Ciclo Finalizado"
-															: "Ocupado"}
+														{
+															getMachineSituation(
+																machine
+																	.estadoMaquinaAtual
+																	.situacao,
+																estimatedTimePast
+															).text
+														}
 													</Text>
 													<Text
 														style={{
@@ -340,6 +365,13 @@ export default function Laundry() {
 									<View className="w-2 h-2 rounded-full bg-[#bc1823]"></View>
 									<Text className="font-ms400 text-sm">
 										Ocupado: máquina em uso
+									</Text>
+								</View>
+								<View className="flex-row items-center gap-3">
+									<View className="w-2 h-2 rounded-full bg-[#bc1823]"></View>
+									<Text className="font-ms400 text-sm">
+										Indisponível: máquina indisponível para
+										uso
 									</Text>
 								</View>
 							</View>
