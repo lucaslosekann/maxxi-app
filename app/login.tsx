@@ -6,6 +6,7 @@ import {
 	Platform,
 	StyleSheet,
 	TextInput,
+	TouchableOpacity,
 	View,
 } from "react-native";
 import { Text } from "../src/components/Text";
@@ -16,6 +17,7 @@ import { Button } from "../src/components/Button";
 import { FontAwesome } from "@expo/vector-icons";
 import { TouchableWithoutFeedback } from "react-native";
 import { router } from "expo-router";
+import { openURL } from "expo-linking";
 
 const CPFMask = (value: string) => {
 	if (value.length > 14) return value.slice(0, 14);
@@ -110,6 +112,27 @@ export default function Login() {
 								labelClasses="font-ms600 text-xl"
 							/>
 						</View>
+						<View
+							style={{
+								display: "flex",
+								flexDirection: "row",
+								flex: 1,
+								flexWrap: "wrap",
+								margin: 10,
+							}}
+							className="absolute bottom-5 w-full justify-center"
+						>
+							<Text>Feito com {"<3"} por </Text>
+							<TouchableOpacity
+								onPress={() =>
+									openURL("https://lucaslosekann.dev")
+								}
+							>
+								<Text style={{ color: "blue" }}>
+									lucaslosekann.dev
+								</Text>
+							</TouchableOpacity>
+						</View>
 					</View>
 				</TouchableWithoutFeedback>
 			</KeyboardAvoidingView>
@@ -123,6 +146,7 @@ const styles = StyleSheet.create({
 	inner: {
 		flex: 1,
 		justifyContent: "center",
+		position: "relative",
 	},
 	header: {
 		fontSize: 36,
