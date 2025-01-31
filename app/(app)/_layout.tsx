@@ -2,22 +2,19 @@ import { Alert, TouchableOpacity } from "react-native";
 import { Text } from "../../src/components/Text";
 import { Redirect, router, Stack } from "expo-router";
 import { useAuth } from "../../src/contexts/AuthContext";
-import { Colors } from "../../src/constants/Colors";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useStorageState } from "../../src/hooks/useStorageState";
-import { useQueryClient } from "@tanstack/react-query";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function AppLayout() {
 	const { user, isLoading, signOut } = useAuth();
 	const [[_, last_seen], setLastSeen] = useStorageState("last_seen_laundry");
-
-	const mutationClient = useQueryClient();
+	const shown = useRef(false);
 
 	useEffect(() => {
 		if (isLoading) return;
 		if (user == null) return;
-		if (last_seen != null) {
+		if (last_seen != null && !shown.current) {
+			shown.current = true;
 			Alert.alert(
 				"Voltar para última lavanderia vista",
 				"Notamos que você já visualizou uma lavanderia antes, gostaria de ir direto para a página dela?",

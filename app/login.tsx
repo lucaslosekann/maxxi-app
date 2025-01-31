@@ -146,7 +146,7 @@ export default function Login() {
 								className="absolute bottom-2 w-full justify-center"
 							>
 								<Text className="text-xs">
-									Feito com {"<3"} por{" "}
+									Desenvolvido por{" "}
 								</Text>
 								<TouchableOpacity
 									onPress={() =>
