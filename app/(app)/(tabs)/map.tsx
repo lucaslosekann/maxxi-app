@@ -1,6 +1,10 @@
 import { Image, StyleSheet, View } from "react-native";
 import React from "react";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, {
+	Marker,
+	PROVIDER_DEFAULT,
+	PROVIDER_GOOGLE,
+} from "react-native-maps";
 import { useQuery } from "@tanstack/react-query";
 import { getLaundries } from "../../../src/services/api";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -18,8 +22,8 @@ const Map = () => {
 	return (
 		<View style={styles.container}>
 			<MapView
-				provider={PROVIDER_GOOGLE}
 				style={{ flex: 1 }}
+				provider={PROVIDER_DEFAULT}
 				region={{
 					latitude: -29.13585879806053,
 					latitudeDelta: 0.15342876023022,

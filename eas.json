@@ -10,8 +10,9 @@
       "channel": "development"
     },
     "preview": {
-      "distribution": "internal",
-      "channel": "preview"
+      "ios": {
+        "simulator": true
+      }
     },
     "production": {
       "autoIncrement": true,
@@ -22,6 +23,11 @@
     "production": {
       "android": {
         "serviceAccountKeyPath": "./key.maxxi-app-444614-808cc6b59d52.json"
+      },
+      "ios": {
+        "appleId": "maxxilavanderia@gmail.com",
+        "ascAppId": "6742499511",
+        "appleTeamId": "JSKCC4U658"
       }
     }
   }

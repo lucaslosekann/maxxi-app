@@ -12,7 +12,11 @@ import { getLaundry, getMachines } from "../../src/services/api";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment-timezone";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, {
+	Marker,
+	PROVIDER_DEFAULT,
+	PROVIDER_GOOGLE,
+} from "react-native-maps";
 import { FontAwesome, Feather } from "@expo/vector-icons";
 import { useStorageState } from "../../src/hooks/useStorageState";
 import { openURL } from "expo-linking";
@@ -289,6 +293,18 @@ export default function Laundry() {
 																estimatedTimePast
 															).text
 														}
+														{moment
+															.tz(
+																machine
+																	.estadoMaquinaAtual
+																	.periodo
+																	.dataInicio,
+																"UTC"
+															)
+															.tz(
+																"America/Sao_Paulo"
+															)
+															.format("HH:mm")}
 													</Text>
 													<Text
 														style={{
@@ -306,11 +322,35 @@ export default function Laundry() {
 														}}
 														className="font-ms700 mb-6"
 													>
-														{machine
-															.estadoMaquinaAtual
-															.situacao ===
-														"Ocupado"
-															? moment
+														{machine.nome
+															.toUpperCase()
+															.includes("SEC")
+															? machine
+																	.estadoMaquinaAtual
+																	.situacao ===
+															  "Ocupado"
+																? moment
+																		.tz(
+																			machine
+																				.estadoMaquinaAtual
+																				.periodo
+																				.dataInicio,
+																			"UTC"
+																		)
+																		.tz(
+																			"America/Sao_Paulo"
+																		)
+																		.add(
+																			machine
+																				.servico
+																				.tempoEstimadoMinutos,
+																			"minutes"
+																		)
+																		.format(
+																			"HH:mm"
+																		)
+																: "-"
+															: moment
 																	.tz(
 																		machine
 																			.estadoMaquinaAtual
@@ -324,13 +364,13 @@ export default function Laundry() {
 																	.add(
 																		machine
 																			.servico
-																			.tempoEstimadoMinutos,
+																			.tempoEstimadoMinutos +
+																			5,
 																		"minutes"
 																	)
 																	.format(
 																		"HH:mm"
-																	)
-															: "-"}
+																	)}
 													</Text>
 												</View>
 											);
@@ -433,7 +473,7 @@ export default function Laundry() {
 							backgroundColor: "#ddd",
 							alignSelf: "stretch",
 						}}
-						provider={PROVIDER_GOOGLE}
+						provider={PROVIDER_DEFAULT}
 					>
 						<Marker
 							coordinate={{

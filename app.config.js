@@ -2,7 +2,7 @@ module.exports = {
 	expo: {
 		name: "Maxxi Lavanderia Express",
 		slug: "maxxi-lavanderia-express",
-		version: "1.0.2",
+		version: "1.0.5",
 		orientation: "portrait",
 		icon: "./src/assets/images/icon.png",
 		scheme: "myapp",
@@ -16,7 +16,10 @@ module.exports = {
 			supportsTablet: true,
 			bundleIdentifier: "com.maxxilavanderia.app",
 			config: {
-				googleMapsApiKey: "-",
+				googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY_IOS,
+				googleMaps: {
+					apiKey: process.env.GOOGLE_MAPS_API_KEY_IOS,
+				},
 			},
 		},
 		android: {
