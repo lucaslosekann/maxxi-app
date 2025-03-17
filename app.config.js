@@ -2,7 +2,7 @@ module.exports = {
 	expo: {
 		name: "Maxxi Lavanderia Express",
 		slug: "maxxi-lavanderia-express",
-		version: "1.0.5",
+		version: "1.0.6",
 		orientation: "portrait",
 		icon: "./src/assets/images/icon.png",
 		scheme: "myapp",
@@ -24,7 +24,7 @@ module.exports = {
 		},
 		android: {
 			package: "com.maxxilavanderia.app",
-			versionCode: 5,
+			versionCode: 6,
 			adaptiveIcon: {
 				foregroundImage: "./src/assets/images/adaptive-icon.png",
 				backgroundColor: "#ffffff",
