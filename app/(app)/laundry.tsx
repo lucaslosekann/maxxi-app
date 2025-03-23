@@ -293,18 +293,6 @@ export default function Laundry() {
 																estimatedTimePast
 															).text
 														}
-														{moment
-															.tz(
-																machine
-																	.estadoMaquinaAtual
-																	.periodo
-																	.dataInicio,
-																"UTC"
-															)
-															.tz(
-																"America/Sao_Paulo"
-															)
-															.format("HH:mm")}
 													</Text>
 													<Text
 														style={{
@@ -350,7 +338,11 @@ export default function Laundry() {
 																			"HH:mm"
 																		)
 																: "-"
-															: moment
+															: machine
+																	.estadoMaquinaAtual
+																	.situacao ===
+															  "Ocupado"
+															? moment
 																	.tz(
 																		machine
 																			.estadoMaquinaAtual
@@ -370,7 +362,8 @@ export default function Laundry() {
 																	)
 																	.format(
 																		"HH:mm"
-																	)}
+																	)
+															: "-"}
 													</Text>
 												</View>
 											);
