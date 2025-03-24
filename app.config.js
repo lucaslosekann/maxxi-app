@@ -2,7 +2,7 @@ module.exports = {
 	expo: {
 		name: "Maxxi Lavanderia Express",
 		slug: "maxxi-lavanderia-express",
-		version: "1.0.7",
+		version: "1.0.8",
 		orientation: "portrait",
 		icon: "./src/assets/images/icon.png",
 		scheme: "myapp",
@@ -51,7 +51,7 @@ module.exports = {
 				"expo-location",
 				{
 					locationAlwaysAndWhenInUsePermission:
-						"Permita $(PRODUCT_NAME) usar sua localização.",
+						"Usamos sua localização para mostrar lavanderias próximas e melhorar sua experiência.",
 				},
 			],
 			"expo-font",
