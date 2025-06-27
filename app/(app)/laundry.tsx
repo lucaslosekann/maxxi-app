@@ -9,14 +9,10 @@ import {
 import { Text } from "../../src/components/Text";
 import React, { useEffect } from "react";
 import { getLaundry, getMachines } from "../../src/services/api";
-import { useLocalSearchParams, useNavigation } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment-timezone";
-import MapView, {
-	Marker,
-	PROVIDER_DEFAULT,
-	PROVIDER_GOOGLE,
-} from "react-native-maps";
+import MapView, { Marker, PROVIDER_DEFAULT } from "react-native-maps";
 import { FontAwesome, Feather } from "@expo/vector-icons";
 import { useStorageState } from "../../src/hooks/useStorageState";
 import { openURL } from "expo-linking";
