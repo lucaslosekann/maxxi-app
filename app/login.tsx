@@ -18,6 +18,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { TouchableWithoutFeedback } from "react-native";
 import { router } from "expo-router";
 import { openURL } from "expo-linking";
+import { OS } from "../src/lib/utils";
 
 const CPFMask = (value: string) => {
 	if (value.length > 14) return value.slice(0, 14);
@@ -65,7 +66,7 @@ export default function Login() {
 			}}
 		>
 			<KeyboardAvoidingView
-				behavior={Platform.OS === "ios" ? "padding" : "height"}
+				behavior={OS === "ios" ? "padding" : "height"}
 				style={styles.container}
 			>
 				<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -119,7 +120,7 @@ export default function Login() {
 									size={25}
 									style={{
 										position: "absolute",
-										top: Platform.OS === "ios" ? 7 : 10,
+										top: OS === "ios" ? 7 : 10,
 										right: 15,
 										color: "#093a3f",
 									}}

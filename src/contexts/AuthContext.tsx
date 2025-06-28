@@ -10,6 +10,7 @@ import { useMutation, UseMutationResult } from "@tanstack/react-query";
 import axios from "axios";
 import Toast from "react-native-toast-message";
 import { Platform } from "react-native";
+import { OS } from "../lib/utils";
 
 type AuthContextType = {
 	signIn: (cpf: string) => Promise<void>;
@@ -55,10 +56,10 @@ export function AuthProvider({ children }: PropsWithChildren) {
 	});
 
 	useEffect(() => {
-		if (Platform.OS === "ios") {
+		if (OS === "ios") {
 			GenerateApplicationAccessMutation.mutateAsync(undefined);
 		}
-	}, [Platform.OS]);
+	}, [OS]);
 
 	return (
 		<AuthContext.Provider
@@ -79,7 +80,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
 				},
 				// user: undefined,
 				//user: user ? JSON.parse(user) : undefined,
-				isLoggedIn: user != null || Platform.OS === "ios",
+				isLoggedIn: user != null || OS === "ios",
 				isLoading,
 			}}
 		>

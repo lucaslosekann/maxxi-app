@@ -3,6 +3,7 @@ import { Redirect, Stack, Tabs } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import { Image } from "react-native";
+import { OS } from "../../../src/lib/utils";
 
 export function TabBarIcon(props: {
 	name: React.ComponentProps<typeof FontAwesome>["name"];
@@ -21,7 +22,6 @@ export default function AppLayout() {
 				tabBarActiveTintColor: "#29a7a6",
 				tabBarInactiveTintColor: "#ddd",
 				tabBarStyle: {
-					height: Platform.OS === "ios" ? 80 : 55,
 					backgroundColor: "#093a3f",
 				},
 				tabBarItemStyle: {

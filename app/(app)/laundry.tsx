@@ -470,6 +470,11 @@ export default function Laundry() {
 								longitude: openedLaundry?.endereco.longitude,
 							}}
 							title={openedLaundry?.nome}
+							onPress={() => {
+								openURL(
+									`https://www.google.com/maps/dir/?api=1&destination=${openedLaundry?.endereco.latitude},${openedLaundry?.endereco.longitude}`
+								);
+							}}
 						/>
 					</MapView>
 

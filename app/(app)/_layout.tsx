@@ -4,6 +4,7 @@ import { Redirect, router, Stack } from "expo-router";
 import { useAuth } from "../../src/contexts/AuthContext";
 import { useEffect, useRef } from "react";
 import { useStorageState } from "../../src/hooks/useStorageState";
+import { OS } from "../../src/lib/utils";
 
 export default function AppLayout() {
 	const { isLoggedIn, isLoading, signOut } = useAuth();
@@ -82,7 +83,7 @@ export default function AppLayout() {
 					</TouchableOpacity>
 				),
 				headerRight: (props) =>
-					Platform.OS !== "ios" ? (
+					OS !== "ios" ? (
 						<TouchableOpacity
 							onPress={() => {
 								signOut();
