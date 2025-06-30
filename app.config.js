@@ -52,6 +52,10 @@ module.exports = {
 				{
 					locationAlwaysAndWhenInUsePermission:
 						"Usamos sua localização para mostrar lavanderias próximas e melhorar sua experiência.",
+					locationWhenInUsePermission:
+						"Precisamos acessar sua localização para mostrar lavanderias próximas.",
+					locationAlwaysPermission:
+						"Precisamos acessar sua localização para mostrar lavanderias próximas.",
 				},
 			],
 			"expo-font",
