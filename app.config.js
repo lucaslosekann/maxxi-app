@@ -2,7 +2,7 @@ module.exports = {
 	expo: {
 		name: "Maxxi Lavanderia Express",
 		slug: "maxxi-lavanderia-express",
-		version: "1.0.9",
+		version: "1.0.10",
 		orientation: "portrait",
 		icon: "./src/assets/images/icon.png",
 		scheme: "myapp",
