@@ -36,7 +36,7 @@ SplashScreen.preventAutoHideAsync();
 const queryClient = new QueryClient();
 
 export default function RootLayout() {
-	let [loaded] = useFonts({
+	const [loaded, error] = useFonts({
 		Montserrat_100Thin,
 		Montserrat_200ExtraLight,
 		Montserrat_300Light,
@@ -58,12 +58,16 @@ export default function RootLayout() {
 	});
 
 	useEffect(() => {
-		if (loaded) {
-			SplashScreen.hideAsync();
+		if (error) {
+			console.error("Failed to load fonts:", error);
 		}
-	}, [loaded]);
 
-	if (!loaded) {
+		if (loaded || error) {
+			SplashScreen.hide();
+		}
+	}, [loaded, error]);
+
+	if (!loaded && !error) {
 		return null;
 	}
 
